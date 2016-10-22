@@ -1,0 +1,17 @@
+Notes for the Exploratory Data Science Course on Coursera
+
+General Notes:
+Textbooks:
+Available for free from leanpub
+"Exploratory Data Analysis with R" R. Peng t http://leanpub.com/exdata
+"The Art of Data Science" R. Peng https://leanpub.com/artofdatascience
+
+Week 1:
+
+Setting up working directory
+R code { 
+"getwd()" - get working directory
+"dir()" - list of files
+"read.csv("file name")" - reads a csv file
+"ls()" - list of available functions
+"source("filename")" - loads in a r file that you've made
