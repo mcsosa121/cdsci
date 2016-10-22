@@ -8,10 +8,34 @@ Available for free from leanpub
 
 Week 1:
 
-Setting up working directory
+Background Material:
+1. Setting up working directory
 R code { 
 "getwd()" - get working directory
 "dir()" - list of files
 "read.csv("file name")" - reads a csv file
 "ls()" - list of available functions
 "source("filename")" - loads in a r file that you've made
+}
+
+Graphs:
+1. Principles of Analytic Graphics
+  A. Show comparisons (Evidence for a hypothersis is always relative to another competing hypothesis, Always ask "Compared to what?")
+  B. Show causality, mechanism, explanation, systemic structure (What is your casual framework for thinking about a question? How you believe a system operates)
+  C. Show multivariate data (more than 2 variables, need to escape flatland) 
+  D. Integration of Evidence (completely integrate words, numbers, images, diagrams, graphics use many modes of presentation, dont let tool drive analysis)
+  E. Describe and document evidence with approp. labels, scales, sources, edc. (Should tell a complete story)
+  F. Content is kind (presentations rely on quality of data)
+Aircleaner - Child symptoms increase, particle matter in air decrease
+Beautiful Evidence http://www.cs.mtu.edu/~hcking/Tufte_hKing.pdf
+
+2. Graphs
+Use to graphs to understand data properties, find patterns, suggest modeling strategies, debug analyses, and communicate results.
+Exploratory graphs (made quickly, large number made, for personal understanding, axes/legends cleaned up later, color/size for info)
+1 dimensional summeries (5-number, boxplot, histogram, density plot, barplot)
+R code {
+      summary(data) - 5 number summary
+      boxplot(data) - boxplot
+      hist(data) - histogram
+}
+2 dimensions (overlayed/multiple 2d plots, use color/size/shape, spinning plots, actual 3-d plots)
