@@ -1,0 +1,77 @@
+Part 3: Variable seclection and Dimensionality Reduction
+
+Variable seclection (OMP) 
+    Goal is to introduce methods that allow one to learn 
+    interpretable models from data. For example, if you have n patients with p gene 
+    expression measurements, with f_w(x) = w^T*x = sum {j=1,..,D} x^j*w^j , then 
+    which variables are important for prediction? Sparsity is also important in 
+    these scenarios becuase only a few of the coefficiants are non-zero.
+
+Brute Force Approach
+    First check all of the individual variables, then pairs of 2, then paris of 3, ....
+        min_{w in R^D} 1/n * sum {i=1,..,n} (y_i - f_w(x_i))^2 + lambda*||w||_0 
+            with ||w||_0 = |{j | w^j =/= 0}|
+
+Greedy Approach/MAtching Pursuit
+    1. Initialize the residual, coeff. vector, and index set.
+    2. Find the variable most correlated with the residual
+    3. Update the index set to include the index of such variable
+    4. update/compute coeff. vector
+    5. update residual
+    Code:
+        r0 = Yn, w0 = 0, I0 = None;
+        
+        for i = 1:T-1
+            
+            k = argmax_{j=1:D} aj 
+                with aj = (r_{i-1}^T*Xj)^2 / ||Xj||^2
+            I_i = I_{i-1} union {k}^i
+            w_i = w_{i-1} + w_k
+                with w_k = vk*ek
+            r_i = r_{i-1} - X*w^k
+        end
+
+        * v^j = r_{i-1}^T*X^j / ||X^j||^2 
+              = argmin_{v in R} ||r_{i-1} - X^j*v^j||^2
+              = ||r_{i-1}||^2 - a_j
+
+Recall Basis Bursuit/Lasso
+    The problem formulated as 
+    min 1/n sum (yi - fwxi)^2 + lambda*||w||_0 
+    becomes min 1/n sum (yi - fwxi)^2 + ||w||_1 
+        where ||w||_1 = sum {j=1:D} |w^j|
+    The problem is now convex and can be solved 
+    via proximal methods. 
+
+    There are many other things to learn about regarding this.
+    Convex Optimization by Boyd and Vandenberghe which is available online for
+    free as a pdf is an amazing reference. 
+
+Dimensionality Reduction: PCA
+    The goal here is to introduce methods that allow us to reduce the Dimensionality 
+    of our data in the abscence of any labels. This is called unsupervised learning.
+    example of data could range from images of numbers to cloud points. 
+
+    The goal is construct a function M such that M : X = R^D -> R^k with k << D 
+    i.e M takes in a input in R^D and outputs something in R^k a much smaller space
+    dimension wise. 
+
+    First we consider k = 1 (i.e rank 1 matrices)
+    PCA - min_{w in S^{D-1}} 1/n * sum {i=1:n} ||x_i - (w^T*x_i)*w||^2
+                ^ this term implies w^T*w = 1
+    Using statitics the problem can be reformulated as follows
+        ||xi - (wtxi)w||^2 = ||xi||^2 - (wtxi)^2
+    ->  max {w in S^{D-1}} 1/n * sum {i-1:n} (wtxi)^2
+    ->  max {w in S^{D-1}} 1/n * sum {i:n} (w^T(x_i in xbar))^2
+    Computation wise we can show that 
+        max {w in S^{D-1}} 1/n * sum {i-1:n} (wtxi)^2 
+            <=> max {w in S^{D-1}} w^T*C_n*w
+                    with C_n = 1/n * sum {1:n} x_i*x_i^T
+    Here w_1 is the max eigenvector of C_n
+
+    For k=2 then w_2 is the second eigenvector of C_n
+
+    This is just a brief intro to PCA and Dimensionality reduction. For more
+    readings, there are a variety of different resources online. 
+
+End of Part 3
