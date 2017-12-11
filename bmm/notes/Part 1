@@ -1,0 +1,75 @@
+Part 1:
+
+Goal is to balance the trade off between stability and fitting when using simple
+machine learning approaches and algorithms.
+
+Def: Supervised Learning - Given data, try to find an underlying input/ouput
+                f(x_new) ~ y
+
+Def: Training Set - Set of n input output pairs
+              S = {(x1,y1),...,(xn,yn)}
+In the case of binary classification y = {0,1}. So an input is either classified
+as one thing or another.
+An important distinction to remember is that xi need not be just one number,
+in many cases, xi is a vector or matrix.
+
+Def: Local Methods - The idea that nearby points have similar labels (outputs) to
+           eachother. An example of this is Nearest Neightbor estimators an example
+           of which is KNN (K-nearest neighbors)
+
+Def: Nearest Neighbors estimator - Given an input \bar{x}, let
+             i' = argmin_{i=1,..,n} || \bar{x} - x_i ||^2
+             Then we can define nne as \hat{ f( \bar{x} ) } = y_{i'}
+Essentially this is saying that given some input xbar, find the x (lets call it x') that
+is nearest to that xbar from the list of {x_i, i=1,...,n}. The criterion used here is the
+2-norm. Then the nne is saying that the inputting xbar to the function fhat, will give you
+a y that you would have gotten should you have inputted the x' you found.
+
+Def: K-Nearest Neighbors - Consider d_{xbar} = [||xbar - x_i||^2 for x_i to x_n] the array
+               of distances of a point xbar to all other points in the training set, let
+                  S_{xbar} = d_{xbar} sorted in increasing order
+                  I_{xbar} = correspodning vector of indices
+                  K_{xbar} = { I_{xbar}^1,..., I_{xbar}^K} the array of first k entries of I_{xbar}
+               Then KNN is defined to be
+                  fhat(xbar) = sum_{i' in K_{xbar}) y_i'
+               Essentially defining the function to be the sum of the outputs of the k nearest
+               neighbors to a point xbar.
+
+** From now on I will refer to fhat(xbar) as fhxb to save space, xbar as xb, etc. 
+
+
+KNN can be extended in various ways.
+ 1. The first natural thought is that closer points should count more
+        fhxb = ( sum y_i*k(xb,x_i) ) / ( sum ( k(xb,x_i) )
+             where k is a Gaussian kernel k(x',x) = e^{-||x-x'||^2 / 2*sigma^2}
+    
+    Parzen Windows - While KNN have a fixed number of points, the area in
+      which they must expand to contain those points varies. Parzen windows use 
+      neighborhoods of a contant size, so their volume is the same, but number 
+      of points varies.
+
+      Parzen windows reward points that are within their neighborhood and discredit 
+      others. The thoery is e density estimation methods. To explain all the theory 
+      here would be pretty difficult. Some helpful links I used to understand 
+          https://www.youtube.com/watch?v=UPXIdi_aTEg           
+          https://stats.stackexchange.com/questions/244012/can-you-explain-parzen-window-kernel-density-estimation-in-laymans-terms/244023
+          http://www.personal.reading.ac.uk/~sis01xh/teaching/CY2D2/Pattern2.pdf
+  2. Other metrics like indicator functions can be used. For example
+        X = {0,1}^D  d_H(x,xb) = (1/D)*Sum {j=1,..,D} (Ind(x^j neq xb^j))
+
+Usually there is one paramater controlling stability/fit. 
+
+In the ideal situation there would be a K such that is minimizes the
+expected error E_s ( E_x,y ( y - fh_K(x))^2 ) 
+
+The trade off between bias and variance leads us to a regression model
+  ( f_*(x) - (1/K)*sum {l in K_x} [f_*(x_l)] )^2 + sigma^2 / K
+The first hald is the variance and the second the bias. There exists 
+an optimal value to this problem, but its hard to compute. 
+
+This is where cross validation comes in.
+
+Def: Cross Validation - Splitting your data into two sets, one to train on
+  and the other to test and tune your model on. 
+  There are many flavors of cross validation 
+
