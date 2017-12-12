@@ -1,4 +1,4 @@
-function Yt = regularizedLSTest(w, Xt)
+function Yt = regularizedLSTest(Xt, w)
     % Test RLS 
     %
     %  w: the (D x 1) vector of RLS coefficients (outut of regularizedLSTrain)

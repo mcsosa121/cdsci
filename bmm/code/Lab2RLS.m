@@ -16,9 +16,18 @@ Ytr = flipLabels(Ytr,0.2);
 Yte = flipLabels(Yte,0.2);
 
 figure;
-scatter(Xtr(:,1),Xtr(:,2),25,Ytr);
-hold on;
-scatter(Xte(:,1),Xte(:,2),25,Yte);
-hold off;
+%scatter(Xtr(:,1),Xtr(:,2),25,Ytr);
+%hold on;
+%scatter(Xte(:,1),Xte(:,2),25,Yte);
+%hold off;
 
 % 2. RLS Classification
+w = regularizedLSTrain(Xtr,Ytr,0.1);
+Yrls = regularizedLSTest(Xte,w);
+err = sqrt((Yrls-Yte).^2);
+z = zeros(length(Yte),1);
+z(err <= 0.5)=1;
+scatter(Xte(:,1),Xte(:,2),25,Yte);
+hold on;
+scatter(Xte(:,1),Xte(:,2),25,z,'x');
+hold off;
